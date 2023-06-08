@@ -15,6 +15,8 @@ lvim.builtin.telescope.defaults.layout_strategy = "horizontal"
 lvim.builtin.telescope.defaults.layout_config.width = 0.8
 lvim.builtin.telescope.defaults.layout_config.height = 0.8
 lvim.builtin.telescope.defaults.layout_config.preview_cutoff = 75
+
+lvim.colorscheme = "tokyonight"
 --透明背景
 -- lvim.transparent_window = true
 --状态栏风格
