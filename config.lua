@@ -7,16 +7,109 @@ require("dap-lldb")
 require("dap-debugpy")
 require("event1")
 require("keymap")
--- require("cmp1")
 require("myoptions")
 
+-- lvim.builtin.mason.ensure_installed =
+-- {
+--   "stylua",                --lua
+--   "lua-language-server",
+--   "pyright",               --python
+--   "python-lsp-server",
+--   "clangd",
+--   "codelldb",
+--   "cmake-language-server",
+--   "prettierd",                --代码格式化
+--   "flake8",                   --python
+--   "shellcheck",               --shell
+--   "shfmt"                    --shell
+-- }
+--which-key
+lvim.builtin.which_key.setup.plugins.presets =
+{
+  operators = false,    -- adds help for operators like d, y, ...
+  motions = false,      -- adds help for motions
+  text_objects = false, -- help for text objects triggered after entering an operator
+  windows = false,      -- default bindings on <c-w>
+  nav = false,          -- misc bindings to work with windows
+  z = true,             -- bindings for folds, spelling and others prefixed with z
+  g = true,             -- bindings for prefixed with g
+}
+--illuminate
+local function map(key, dir, buffer)
+  vim.keymap.set("n", key, function()
+    require("illuminate")["goto_" .. dir .. "_reference"](false)
+  end, { desc = dir:sub(1, 1):upper() .. dir:sub(2) .. " Reference", buffer = buffer })
+end
+lvim.builtin.illuminate.options = {
+  map("]]", "next"),
+  map("[[", "prev"),
+  vim.api.nvim_create_autocmd("FileType", {
+    callback = function()
+      local buffer = vim.api.nvim_get_current_buf()
+      map("]]", "next", buffer)
+      map("[[", "prev", buffer)
+    end,
+  }),
+  keys = {
+    { "]]", desc = "Next Reference" },
+    { "[[", desc = "Prev Reference" },
+  },
+  -- providers: provider used to get references in the buffer, ordered by priority
+  providers = {
+    "lsp",
+    "treesitter",
+    "regex",
+  },
+  -- delay: delay in milliseconds
+  delay = 120,
+  -- filetype_overrides: filetype specific overrides.
+  -- The keys are strings to represent the filetype while the values are tables that
+  -- supports the same keys passed to .configure except for filetypes_denylist and filetypes_allowlist
+  filetype_overrides = {},
+  -- filetypes_denylist: filetypes to not illuminate, this overrides filetypes_allowlist
+  filetypes_denylist = {
+    "dirvish",
+    "fugitive",
+    "alpha",
+    "NvimTree",
+    "lazy",
+    "neogitstatus",
+    "Trouble",
+    "lir",
+    "Outline",
+    "spectre_panel",
+    "toggleterm",
+    "DressingSelect",
+    "TelescopePrompt",
+  },
+  -- filetypes_allowlist: filetypes to illuminate, this is overridden by filetypes_denylist
+  filetypes_allowlist = {},
+  -- modes_denylist: modes to not illuminate, this overrides modes_allowlist
+  modes_denylist = {},
+  -- modes_allowlist: modes to illuminate, this is overridden by modes_denylist
+  modes_allowlist = {},
+  -- providers_regex_syntax_denylist: syntax to not illuminate, this overrides providers_regex_syntax_allowlist
+  -- Only applies to the 'regex' provider
+  -- Use :echom synIDattr(synIDtrans(synID(line('.'), col('.'), 1)), 'name')
+  providers_regex_syntax_denylist = {},
+  -- providers_regex_syntax_allowlist: syntax to illuminate, this is overridden by providers_regex_syntax_denylist
+  -- Only applies to the 'regex' provider
+  -- Use :echom synIDattr(synIDtrans(synID(line('.'), col('.'), 1)), 'name')
+  providers_regex_syntax_allowlist = {},
+  -- under_cursor: whether or not to illuminate under the cursor
+  under_cursor = true,
+}
+
+
+
+--plugs: Dap
 lvim.builtin.dap.ui.config.layouts = {
   {
     elements = {
       { id = "scopes",      size = 0.33 },
+      { id = "watches",     size = 0.25 },
       { id = "breakpoints", size = 0.17 },
       { id = "stacks",      size = 0.25 },
-      { id = "watches",     size = 0.25 },
     },
     size = 0.33,
     position = "left",
@@ -31,9 +124,6 @@ lvim.builtin.dap.ui.config.layouts = {
   },
 }
 local dap, dapui = require("dap"), require("dapui")
--- require("neodev").setup({
---     library = { plugins = { "nvim-dap-ui" }, types = true },
--- })
 local debug_open = function()
   dapui.open({})
 end
@@ -45,8 +135,6 @@ dap.listeners.after.event_initialized["dapui_config"] = debug_open
 dap.listeners.before.event_terminated["dapui_config"] = debug_close
 dap.listeners.before.event_exited["dapui_config"] = debug_close
 dap.listeners.before.disconnect["dapui_config"] = debug_close
-
-
 
 
 local handler = function(virtText, lnum, endLnum, width, truncate)
@@ -103,7 +191,6 @@ lvim.plugins = {
     "ggandor/flit.nvim",
     event = "VeryLazy",
     keys = function()
-      ---@type LazyKeys[]
       local ret = {}
       for _, key in ipairs({ "f", "F", "T", "t" }) do
         ret[#ret + 1] = { key, mode = { "n", "x", "o" } }
@@ -138,43 +225,43 @@ lvim.plugins = {
     -- 需要调整nodejs版本
     build = ":call mkdp#util#install()",
     ft = { "markdown" },
-    config = function()
-      -- vim.cmd([[let g:mkdp_auto_start = 1]]) --这是格式
-      vim.g.mkdp_theme = 'light'
-      vim.g.mkdp_auto_start = 1
-      vim.g.mkdp_auto_close = 0
-      vim.g.mkdp_markdown_css = "/Users/riley/.config/node_modules/github-markdown-css/github-markdown.css"
-      vim.g.mkdp_highlight_css = "/Users/riley/.config/node_modules/github-markdown-css/github-markdown.css"
-    end,
+    -- config = function()
+    -- vim.cmd([[let g:mkdp_auto_start = 1]]) --这是格式
+    -- vim.g.mkdp_theme = 'light'
+    -- vim.g.mkdp_auto_start = 1
+    -- vim.g.mkdp_auto_close = 0
+    -- vim.g.mkdp_markdown_css = "/Users/riley/.config/node_modules/github-markdown-css/github-markdown.css"
+    -- vim.g.mkdp_highlight_css = "/Users/riley/.config/node_modules/github-markdown-css/github-markdown.css"
+    -- end,
   },
-  {
-    "ekickx/clipboard-image.nvim", --markdown插入图片
-    -- lazy = true,
-    keys = {
-      { "<leader>mi", "<cmd>PasteImg<cr>", desc = "PasteImg" },
-    },
-    config = function()
-      require("clipboard-image").setup({
-        -- Default configuration for all filetype
-        default = {
-          img_dir = "./img",
-          img_name = function() return os.date('%Y-%m-%d-%H-%M-%S') end, -- Example result: "2021-04-13-10-04-18"
-          affix = "<\n  %s\n>"                                           -- Multi lines affix
-        },
-        -- You can create configuration for ceartain filetype by creating another field (markdown, in this case)
-        -- If you're uncertain what to name your field to, you can run `lua print(vim.bo.filetype)`
-        -- Missing options from `markdown` field will be replaced by options from `default` field
-        markdown = {
-          img_dir = { "./img", "assets", "img" }, -- Use table for nested dir (New feature form PR #20)
-          img_dir_txt = "./img/assets/img",
-          img_handler = function(img)             -- New feature from PR #22
-            local script = string.format('./image_compressor.sh "%s"', img.path)
-            os.execute(script)
-          end,
-        }
-      })
-    end,
-  },
+  -- {
+  --   "ekickx/clipboard-image.nvim", --markdown插入图片
+  --   -- lazy = true,
+  --   keys = {
+  --     { "<leader>mi", "<cmd>PasteImg<cr>", desc = "PasteImg" },
+  --   },
+  --   config = function()
+  --     require("clipboard-image").setup({
+  --       -- Default configuration for all filetype
+  --       default = {
+  --         img_dir = "./img",
+  --         img_name = function() return os.date('%Y-%m-%d-%H-%M-%S') end, -- Example result: "2021-04-13-10-04-18"
+  --         affix = "<\n  %s\n>"                                           -- Multi lines affix
+  --       },
+  --       -- You can create configuration for ceartain filetype by creating another field (markdown, in this case)
+  --       -- If you're uncertain what to name your field to, you can run `lua print(vim.bo.filetype)`
+  --       -- Missing options from `markdown` field will be replaced by options from `default` field
+  --       markdown = {
+  --         img_dir = { "./img", "assets", "img" }, -- Use table for nested dir (New feature form PR #20)
+  --         img_dir_txt = "./img/assets/img",
+  --         img_handler = function(img)             -- New feature from PR #22
+  --           local script = string.format('./image_compressor.sh "%s"', img.path)
+  --           os.execute(script)
+  --         end,
+  --       }
+  --     })
+  --   end,
+  -- },
   {
     "luukvbaal/statuscol.nvim",
     event = "BufReadPost",
@@ -325,14 +412,28 @@ lvim.plugins = {
       },
     }
   },
-  --    -- 这个插件可以让你更方便地查看 NeoVim 中的错误和警告信息。它提供了一个可视化的界面，让你更容易地查看和定位错误。
-  --    {
-  --     "folke/trouble.nvim",
-  --     lazy=true,
-  --     cmd = { "TroubleToggle", "Trouble" },
-  --     opts = { use_diagnostic_signs = true },
+  {
+    "rcarriga/nvim-notify",
+    event = "VeryLazy",
+    opts = {
+      background_colour = "#000000",
+      timeout = 3000,
+      max_height = function()
+        return math.floor(vim.o.lines * 0.3)
+      end,
+      max_width = function()
+        return math.floor(vim.o.columns * 0.3)
+      end,
+      --我修改
+      render = "minimal",
+    },
+    init = function()
+      require("telescope").load_extension("notify") --加载
+      -- when noice is not enabled, install notify on VeryLazy
+      vim.notify = require("notify")
+    end,
+  },
 
-  -- },
   {
     "Weissle/persistent-breakpoints.nvim", --断点插件
     event = { "BufReadPost" },

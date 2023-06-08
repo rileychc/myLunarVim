@@ -5,9 +5,9 @@
 -- 禁止警告
 vim.g.loaded_perl_provider = 0
 vim.opt.relativenumber = true -- relative line numbers
--- vim.opt.cmdheight = 0
+vim.opt.cmdheight = 0
 
-vim.opt.shell = "/bin/zsh"
+-- vim.opt.shell = "/bin/zsh"
 --出现补全需多少字符
 lvim.builtin.cmp.completion.keyword_length = 2
 --Telescope

@@ -22,8 +22,11 @@ lvim.keys.normal_mode["<leader>k"] = "<C-W>k"
 lvim.keys.normal_mode["<leader>l"] = "<C-W>l"
 lvim.keys.normal_mode["<M-w>"] = "<C-W>c"
 
-
---LSP
+--"Delete All Notifications" 
+lvim.keys.normal_mode["<leader>nc"] =
+    function()
+      require("notify").dismiss({ silent = true, pending = true })
+    end --LSP
 lvim.lsp.buffer_mappings.normal_mode['gd'] = lvim.lsp.buffer_mappings.normal_mode['gD']
 lvim.lsp.buffer_mappings.normal_mode['gD'] = nil
 lvim.lsp.buffer_mappings.normal_mode['gr'] = nil
@@ -47,32 +50,31 @@ lvim.keys.normal_mode["gF"] = { "<Cmd>lua require('lvim.lsp.utils').format()<CR>
 lvim.keys.normal_mode["<F2>"] = { "<Cmd>Lspsaga rename<CR>" }
 lvim.keys.normal_mode["<F14>"] = { "<Cmd>Lspsaga rename ++project<CR>" }
 
-
 --Bufferline
--- lvim.keys.normal_mode["<A-]>"] = "<cmd>BufferLineCycleNext<CR>"
--- lvim.keys.normal_mode["<A-["] = "<cmd>BufferLineCyclePrev<CR>"
--- lvim.keys.normal_mode["<A-S-]>"] = "<cmd>BufferLineMoveNext<CR>"
--- lvim.keys.normal_mode["<A-S-["] = "<cmd>BufferLineMovePrev<CR>"
-lvim.keys.normal_mode["<A-1>"] = "<cmd>BufferLineGoToBuffer 1<CR>"
-lvim.keys.normal_mode["<A-2>"] = "<cmd>BufferLineGoToBuffer 2<CR>"
-lvim.keys.normal_mode["<A-3>"] = "<cmd>BufferLineGoToBuffer 3<CR>"
-lvim.keys.normal_mode["<A-4>"] = "<cmd>BufferLineGoToBuffer 4<CR>"
-lvim.keys.normal_mode["<A-5>"] = "<cmd>BufferLineGoToBuffer 5<CR>"
-lvim.keys.normal_mode["<A-6>"] = "<cmd>BufferLineGoToBuffer 6<CR>"
-lvim.keys.normal_mode["<A-7>"] = "<cmd>BufferLineGoToBuffer 7<CR>"
-lvim.keys.normal_mode["<A-8>"] = "<cmd>BufferLineGoToBuffer 8<CR>"
-lvim.keys.normal_mode["<A-9>"] = "<cmd>BufferLineGoToBuffer 9<CR>"
+-- lvim.keys.normal_mode["<M-l>"] = "<cmd>BufferLineCycleNext<CR>"
+-- lvim.keys.normal_mode["<M-h"] = "<cmd>BufferLineCyclePrev<CR>"
+-- lvim.keys.normal_mode["<M-j>"] = "<cmd>BufferLineMoveNext<CR>"
+-- lvim.keys.normal_mode["<M-k"] = "<cmd>BufferLineMovePrev<CR>"
+lvim.keys.normal_mode["<M-1>"] = "<cmd>BufferLineGoToBuffer 1<CR>"
+lvim.keys.normal_mode["<M-2>"] = "<cmd>BufferLineGoToBuffer 2<CR>"
+lvim.keys.normal_mode["<M-3>"] = "<cmd>BufferLineGoToBuffer 3<CR>"
+lvim.keys.normal_mode["<M-4>"] = "<cmd>BufferLineGoToBuffer 4<CR>"
+lvim.keys.normal_mode["<M-5>"] = "<cmd>BufferLineGoToBuffer 5<CR>"
+lvim.keys.normal_mode["<M-6>"] = "<cmd>BufferLineGoToBuffer 6<CR>"
+lvim.keys.normal_mode["<M-7>"] = "<cmd>BufferLineGoToBuffer 7<CR>"
+lvim.keys.normal_mode["<M-8>"] = "<cmd>BufferLineGoToBuffer 8<CR>"
+lvim.keys.normal_mode["<M-9>"] = "<cmd>BufferLineGoToBuffer 9<CR>"
 lvim.keys.normal_mode["<M-q>"] = "<Cmd>BufferKill<CR>"
-lvim.builtin.which_key.mappings["f"] = {}
 lvim.builtin.which_key.mappings["md"] = { "<cmd>MarkdownPreviewToggle<CR>", "Preview markdown" }
 lvim.builtin.which_key.mappings["bd"] = { "<Cmd>BufferKill<CR>", "Buffer Close" }
+-- lvim.builtin.which_key.mappings["bN"] = { "<Cmd><CR>", "Buffer Close" }
 lvim.builtin.which_key.mappings["H"] = { "<Cmd>Alpha<CR>", "Home page" }
 lvim.builtin.which_key.mappings["<CR>"] = { "<Cmd>nohlsearch<CR>", "No hightlight" }
 lvim.builtin.which_key.mappings["L"] = {
   name = "LSP",
   d = { " <Cmd>Telescope diagnostics bufnr=0 theme=get_ivy<CR>", "Buffer Diagnostics" },
   e = { " <Cmd>Telescope quickfix<CR>", "Telescope Quickfix" },
-  l = { " <Cmd>lua vim.lsp.codelens.run()<CR>", "CodeLens Action" },
+  l = { " <cmd>lua vim.lsp.codelens.run()<CR>", "CodeLens Action" },
   q = { " <Cmd>lua vim.diagnostic.setloclist()<CR>", "Quickfix" },
   s = { " <Cmd>Telescope lsp_document_symbols<CR>", "Document Symbols" },
   i = { " <Cmd>LspInfo<CR>", "Info" },
@@ -90,6 +92,7 @@ lvim.builtin.which_key.mappings["v"] = {
   name = "Lunarvim",
   r    = { "<Cmd>LvimReload<CR>", "Reload LunarVim's configuration" },
   i    = { "<Cmd>lua require('lvim.core.info').toggle_popup(vim.bo.filetype)<CR>", "Toggle LunarVim Info" },
+  l    = { name="+log" },
   ln   = { "<Cmd>lua require('lvim.core.terminal').toggle_log_view(os.getenv('NVIM_LOG_FILE'))<CR>", "view neovim log" },
   lL   = { "<Cmd>lua vim.fn.execute('edit ' .. vim.lsp.get_log_path())<CR>", "Open the LSP logfile" },
   ll   = { "<Cmd>lua require('lvim.core.terminal').toggle_log_view(vim.lsp.get_log_path())<CR>", "view lsp log" },
@@ -110,6 +113,7 @@ lvim.builtin.which_key.mappings["v"] = {
 --Telescope
 lvim.builtin.which_key.mappings["s"] = {
   name = "Search",
+  n = { "<Cmd>Telescope notify<CR>", "Telescope Notify" },
   k = { " <Cmd>Telescope keymaps<CR>", "Keymaps" },
   r = { " <Cmd>Telescope oldfiles<CR>", "Open Recent File" },
   C = { " <Cmd>Telescope commands<CR>", "Commands" },
@@ -170,11 +174,15 @@ lvim.builtin.which_key.mappings['d'] = {
 
 
 --Disabled keymap
+lvim.keys.normal_mode["<M-n>"] = ""
+lvim.keys.normal_mode["<M-p>"] = ""
 lvim.keys.normal_mode["<C-q>"] = false
 lvim.keys.normal_mode["<C-h>"] = false
 lvim.keys.normal_mode["<C-j>"] = false
 lvim.keys.normal_mode["<C-k>"] = false
 lvim.keys.normal_mode["<C-l>"] = false
+lvim.builtin.which_key.mappings["f"] = {}
+lvim.builtin.which_key.mappings["p"] = {}
 lvim.builtin.which_key.vmappings['/'] = {}
 lvim.builtin.which_key.mappings['/'] = {}
 lvim.builtin.which_key.mappings['q'] = {}
@@ -187,7 +195,6 @@ lvim.builtin.which_key.mappings["w"] = {}
 
 
 lvim.lsp.buffer_mappings.normal_mode['K'] = nil
-
 --Terminal
 lvim.builtin["terminal"].execs = {
   { nil, "<M-\\>", "Vertical Terminal", "vertical", 0.4 },
@@ -213,7 +220,7 @@ lvim.keys.normal_mode["<M-Left>"] = false
 lvim.keys.normal_mode["<M-Right>"] = false
 lvim.keys.normal_mode["<C-Left>"] = false
 lvim.keys.normal_mode["<C-Right>"] = false
-lvim.keys.normal_mode["<C-;>"] = ":resize -2<CR>"
-lvim.keys.normal_mode["<C-[>"] = ":vertical resize -2<CR>"
-lvim.keys.normal_mode["<C-]>"] = ":vertical resize +2<CR>"
-lvim.keys.normal_mode["<C-'>"] = ":resize +2<CR>"
+lvim.keys.normal_mode["<M-;>"] = ":resize -2<CR>"
+lvim.keys.normal_mode["<M-[>"] = ":vertical resize -2<CR>"
+lvim.keys.normal_mode["<M-]>"] = ":vertical resize +2<CR>"
+lvim.keys.normal_mode["<M-'>"] = ":resize +2<CR>"
