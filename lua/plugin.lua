@@ -87,12 +87,12 @@ lvim.plugins = {
     build = ":call mkdp#util#install()",
     ft = { "markdown" },
     config = function()
-    vim.cmd([[let g:mkdp_auto_start = 1]]) --这是格式
-    vim.g.mkdp_theme = 'light'
-    vim.g.mkdp_auto_start = 1
-    vim.g.mkdp_auto_close = 0
-    vim.g.mkdp_markdown_css = "/Users/riley/.config/node_modules/github-markdown-css/github-markdown.css"
-    vim.g.mkdp_highlight_css = "/Users/riley/.config/node_modules/github-markdown-css/github-markdown.css"
+      vim.cmd([[let g:mkdp_auto_start = 1]]) --这是格式
+      vim.g.mkdp_theme = 'light'
+      vim.g.mkdp_auto_start = 1
+      vim.g.mkdp_auto_close = 0
+      vim.g.mkdp_markdown_css = "/Users/riley/.config/node_modules/github-markdown-css/github-markdown.css"
+      vim.g.mkdp_highlight_css = "/Users/riley/.config/node_modules/github-markdown-css/github-markdown.css"
     end,
   },
   -- {
@@ -441,4 +441,45 @@ lvim.plugins = {
       end, { expr = true })
     end,
   },
+  {
+    --翻译插件
+    "JuanZoran/Trans.nvim",
+    event = "VeryLazy",
+    build = function()
+      require("Trans").install()
+    end,
+    keys = {
+      { "<leader>tl", "<cmd>Translate<CR>",      mode = { "n", "v" }, desc = "Translate" },
+      { "<leader>ti", "<cmd>TranslateInput<CR>", mode = { "n", "v" }, desc = "InputTranslate" },
+      { "<leader>tp", "<cmd>TransPlay<CR>",      mode = { "n", "v" }, desc = "TransPlay" },
+    },
+    dependencies = { "kkharji/sqlite.lua" },
+    config = function()
+      require("Trans").setup({
+        frontend = {
+          default = {
+            title = vim.fn.has("nvim-0.9") == 1 and {
+              { "",         "TransTitleRound" },
+              { "Translation", "TransTitle" },
+              { "",         "TransTitleRound" },
+            } or nil, -- need nvim-0.9+
+            auto_play = false,
+          },
+          hover = {
+            order = {
+              default = {
+                "translation",
+              },
+              offline = {
+                "translation",
+              },
+              youdao = {
+                "translation",
+              },
+            },
+          },
+        },
+      })
+    end,
+  }
 }

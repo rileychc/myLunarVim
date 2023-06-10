@@ -9,7 +9,7 @@ vim.opt.cmdheight = 0
 
 -- vim.opt.shell = "/bin/zsh"
 --出现补全需多少字符
-lvim.builtin.cmp.completion.keyword_length = 2
+-- lvim.builtin.cmp.completion.keyword_length = 2
 --Telescope
 lvim.builtin.telescope.defaults.layout_strategy = "horizontal"
 lvim.builtin.telescope.defaults.layout_config.width = 0.8

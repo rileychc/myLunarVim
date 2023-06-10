@@ -22,7 +22,8 @@ lvim.keys.normal_mode["<leader>k"] = "<C-W>k"
 lvim.keys.normal_mode["<leader>l"] = "<C-W>l"
 lvim.keys.normal_mode["<M-w>"] = "<C-W>c"
 
---"Delete All Notifications" 
+
+--"Delete All Notifications"
 lvim.keys.normal_mode["<leader>nc"] =
     function()
       require("notify").dismiss({ silent = true, pending = true })
@@ -68,6 +69,18 @@ lvim.keys.normal_mode["<M-q>"] = "<Cmd>BufferKill<CR>"
 lvim.builtin.which_key.mappings["md"] = { "<cmd>MarkdownPreviewToggle<CR>", "Preview markdown" }
 lvim.builtin.which_key.mappings["bd"] = { "<Cmd>BufferKill<CR>", "Buffer Close" }
 -- lvim.builtin.which_key.mappings["bN"] = { "<Cmd><CR>", "Buffer Close" }
+lvim.builtin.which_key.mappings["bN"] = { "<cmd>enew<CR>", "New File" }
+-- tabs
+lvim.builtin.which_key.mappings["<tab>"] =
+{
+  name = "Tabs",
+  l = { "<cmd>tablast<cr>", "Last Tab" },
+  f = { "<cmd>tabfirst<cr>", "First Tab" },
+  N = { "<cmd>tabnew<cr>", "New Tab" },
+  n = { "<cmd>tabnext<cr>", "Next Tab" },
+  d = { "<cmd>tabclose<cr>", "Close Tab" },
+  b = { "<cmd>tabprevious<cr>", "Previous Tab" },
+}
 lvim.builtin.which_key.mappings["H"] = { "<Cmd>Alpha<CR>", "Home page" }
 lvim.builtin.which_key.mappings["<CR>"] = { "<Cmd>nohlsearch<CR>", "No hightlight" }
 lvim.builtin.which_key.mappings["L"] = {
@@ -92,7 +105,7 @@ lvim.builtin.which_key.mappings["v"] = {
   name = "Lunarvim",
   r    = { "<Cmd>LvimReload<CR>", "Reload LunarVim's configuration" },
   i    = { "<Cmd>lua require('lvim.core.info').toggle_popup(vim.bo.filetype)<CR>", "Toggle LunarVim Info" },
-  l    = { name="+log" },
+  l    = { name = "+log" },
   ln   = { "<Cmd>lua require('lvim.core.terminal').toggle_log_view(os.getenv('NVIM_LOG_FILE'))<CR>", "view neovim log" },
   lL   = { "<Cmd>lua vim.fn.execute('edit ' .. vim.lsp.get_log_path())<CR>", "Open the LSP logfile" },
   ll   = { "<Cmd>lua require('lvim.core.terminal').toggle_log_view(vim.lsp.get_log_path())<CR>", "view lsp log" },
