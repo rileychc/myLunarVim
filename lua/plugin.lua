@@ -448,12 +448,7 @@ lvim.plugins = {
     build = function()
       require("Trans").install()
     end,
-    keys = {
-      { "<leader>tl", "<cmd>Translate<CR>",      mode = { "n", "v" }, desc = "Translate" },
-      { "<leader>ti", "<cmd>TranslateInput<CR>", mode = { "n", "v" }, desc = "InputTranslate" },
-      { "<leader>tp", "<cmd>TransPlay<CR>",      mode = { "n", "v" }, desc = "TransPlay" },
-    },
-    dependencies = { "kkharji/sqlite.lua" },
+        dependencies = { "kkharji/sqlite.lua" },
     config = function()
       require("Trans").setup({
         frontend = {

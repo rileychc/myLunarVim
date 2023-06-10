@@ -1,4 +1,7 @@
-	--一键编译c/cpp
+	--不要自动评论新行(没起作用)
+vim.api.nvim_create_autocmd("BufEnter", { pattern = "", command = "set fo-=c fo-=r fo-=o", })
+
+--一键编译c/cpp
 	vim.api.nvim_create_autocmd("FileType", {
 		pattern = "c",
 		callback = function()

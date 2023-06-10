@@ -23,11 +23,7 @@ lvim.keys.normal_mode["<leader>l"] = "<C-W>l"
 lvim.keys.normal_mode["<M-w>"] = "<C-W>c"
 
 
---"Delete All Notifications"
-lvim.keys.normal_mode["<leader>nc"] =
-    function()
-      require("notify").dismiss({ silent = true, pending = true })
-    end --LSP
+--LSP
 lvim.lsp.buffer_mappings.normal_mode['gd'] = lvim.lsp.buffer_mappings.normal_mode['gD']
 lvim.lsp.buffer_mappings.normal_mode['gD'] = nil
 lvim.lsp.buffer_mappings.normal_mode['gr'] = nil
@@ -35,18 +31,18 @@ lvim.lsp.buffer_mappings.normal_mode['gk'] = nil
 lvim.lsp.buffer_mappings.normal_mode['gl'] = nil
 lvim.lsp.buffer_mappings.normal_mode['gi'] = lvim.lsp.buffer_mappings.normal_mode['gI']
 lvim.lsp.buffer_mappings.normal_mode['gI'] = nil
-lvim.keys.normal_mode["gC"] = "<cmd>CodeiumEnable<CR>"
-lvim.keys.normal_mode["gI"] = "<cmd>Lspsaga outgoing_calls<CR>"
-lvim.keys.normal_mode["gO"] = "<cmd>Lspsaga incoming_calls<CR>"
-lvim.keys.normal_mode["gp"] = "<cmd>Lspsaga peek_definition<CR>"
-lvim.keys.normal_mode["gD"] = "<cmd>Lspsaga goto_definition<CR>"
-lvim.keys.normal_mode["gr"] = "<cmd>Lspsaga lsp_finder<CR>"
-lvim.keys.normal_mode["gk"] = "<cmd>Lspsaga hover_doc<CR>"
-lvim.keys.normal_mode["ga"] = "<cmd>Lspsaga code_action<CR>"
-lvim.keys.normal_mode["[g"] = "<cmd>Lspsaga diagnostic_jump_prev<CR>"
-lvim.keys.normal_mode["]g"] = "<cmd>Lspsaga diagnostic_jump_next<CR>"
-lvim.keys.normal_mode["go"] = "<cmd>Lspsaga outline<CR>"
-lvim.keys.normal_mode["gl"] = "<cmd>Lspsaga show_line_diagnostics<CR>"
+lvim.keys.normal_mode["gC"] = {"<cmd>CodeiumEnable<CR>"}
+lvim.keys.normal_mode["gI"] = {"<cmd>Lspsaga outgoing_calls<CR>"}
+lvim.keys.normal_mode["gO"] = {"<cmd>Lspsaga incoming_calls<CR>"}
+lvim.keys.normal_mode["gp"] = {"<cmd>Lspsaga peek_definition<CR>"}
+lvim.keys.normal_mode["gD"] = {"<cmd>Lspsaga goto_definition<CR>"}
+lvim.keys.normal_mode["gr"] = {"<cmd>Lspsaga lsp_finder<CR>"}
+lvim.keys.normal_mode["gk"] = {"<cmd>Lspsaga hover_doc<CR>"}
+lvim.keys.normal_mode["ga"] = {"<cmd>Lspsaga code_action<CR>"}
+lvim.keys.normal_mode["[g"] = {"<cmd>Lspsaga diagnostic_jump_prev<CR>"}
+lvim.keys.normal_mode["]g"] = {"<cmd>Lspsaga diagnostic_jump_next<CR>"}
+lvim.keys.normal_mode["go"] = {"<cmd>Lspsaga outline<CR>"}
+lvim.keys.normal_mode["gl"] = {"<cmd>Lspsaga show_line_diagnostics<CR>"}
 lvim.keys.normal_mode["gF"] = { "<Cmd>lua require('lvim.lsp.utils').format()<CR>" }
 lvim.keys.normal_mode["<F2>"] = { "<Cmd>Lspsaga rename<CR>" }
 lvim.keys.normal_mode["<F14>"] = { "<Cmd>Lspsaga rename ++project<CR>" }
@@ -66,7 +62,6 @@ lvim.keys.normal_mode["<M-7>"] = "<cmd>BufferLineGoToBuffer 7<CR>"
 lvim.keys.normal_mode["<M-8>"] = "<cmd>BufferLineGoToBuffer 8<CR>"
 lvim.keys.normal_mode["<M-9>"] = "<cmd>BufferLineGoToBuffer 9<CR>"
 lvim.keys.normal_mode["<M-q>"] = "<Cmd>BufferKill<CR>"
-lvim.builtin.which_key.mappings["md"] = { "<cmd>MarkdownPreviewToggle<CR>", "Preview markdown" }
 lvim.builtin.which_key.mappings["bd"] = { "<Cmd>BufferKill<CR>", "Buffer Close" }
 -- lvim.builtin.which_key.mappings["bN"] = { "<Cmd><CR>", "Buffer Close" }
 lvim.builtin.which_key.mappings["bN"] = { "<cmd>enew<CR>", "New File" }
@@ -97,10 +92,38 @@ lvim.builtin.which_key.mappings["L"] = {
   a = { " <Cmd>lua vim.lsp.buf.code_action()<CR>", "Code Action" },
   S = { " <Cmd>Telescope lsp_dynamic_workspace_symbols<CR>", "Workspace Symbols" },
   f = { " ", "Format" },
-  j = { " <Cmd>lua vim.diagnostic.goto_next()<CR>", "Next Diagnostic" },
+  j = { "<Cmd>lua vim.diagnostic.goto_next()<CR>", "Next Diagnostic" },
   t = { ":TSConfigInfo<CR>", "Treesistter Info" },
 }
---Lunarvim
+--Translate
+lvim.builtin.which_key.mappings["t"] = {
+  name="Translate",
+  l={"<cmd>Translate<CR>","Translate"},
+      i={  "<cmd>TranslateInput<CR>",  "InputTranslate" },
+      p={"<cmd>TransPlay<CR>",       "TransPlay" },
+    }
+lvim.builtin.which_key.vmappings["t"] = {
+  name="Translate",
+  l={"<cmd>Translate<CR>","Translate"},
+      i={  "<cmd>TranslateInput<CR>",  "InputTranslate" },
+      p={"<cmd>TransPlay<CR>",       "TransPlay" },
+    }
+
+
+--MarkDown
+lvim.builtin.which_key.mappings["m"] = {name="MarkDown",
+d = { "<cmd>MarkdownPreviewToggle<CR>", "Preview markdown" },
+}
+
+--Notify
+--"Delete All Notifications"
+lvim.builtin.which_key.mappings["n"] = {
+  name="Notify",
+  c={function()
+      require("notify").dismiss({ silent = true, pending = true })
+    end ,"Clear Notify"}
+}
+    --Lunarvim
 lvim.builtin.which_key.mappings["v"] = {
   name = "Lunarvim",
   r    = { "<Cmd>LvimReload<CR>", "Reload LunarVim's configuration" },

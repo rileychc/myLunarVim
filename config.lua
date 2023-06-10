@@ -10,20 +10,6 @@ require("keymap")
 require("myoptions")
 require("plugin")
 
--- lvim.builtin.mason.ensure_installed =
--- {
---   "stylua",                --lua
---   "lua-language-server",
---   "pyright",               --python
---   "python-lsp-server",
---   "clangd",
---   "codelldb",
---   "cmake-language-server",
---   "prettierd",                --代码格式化
---   "flake8",                   --python
---   "shellcheck",               --shell
---   "shfmt"                    --shell
--- }
 --which-key
 lvim.builtin.which_key.setup.plugins.presets =
 {
@@ -35,6 +21,7 @@ lvim.builtin.which_key.setup.plugins.presets =
   z = true,             -- bindings for folds, spelling and others prefixed with z
   g = true,             -- bindings for prefixed with g
 }
+lvim.builtin.which_key.setup.ignore_missing = true
 --illuminate
 local function map(key, dir, buffer)
   vim.keymap.set("n", key, function()
