@@ -1,6 +1,9 @@
 -- lvim.lsp.buffer_mappings.normal_mode['gk'] = { vim.lsp.buf.hover, "Show documentation" }
 -- Personal
 lvim.keys.insert_mode["jk"] = "<Esc>"
+lvim.keys.insert_mode["<C-s>"] = "<cmd>w!<CR>"
+lvim.keys.normal_mode["<C-s>"] = "<cmd>w!<CR>"
+lvim.keys.visual_mode["<C-s>"] = "<cmd>w!<CR>"
 lvim.keys.normal_mode["<leader>-"] = "<C-W>s"
 lvim.keys.normal_mode["<leader>|"] = "<C-W>v"
 lvim.keys.normal_mode["U"] = "<C-r>"

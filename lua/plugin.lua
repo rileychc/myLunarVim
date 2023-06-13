@@ -1,6 +1,6 @@
 local handler = function(virtText, lnum, endLnum, width, truncate)
   local newVirtText = {}
-  local suffix = ('  %d '):format(endLnum - lnum)
+  local suffix = ("  %d "):format(endLnum - lnum)
   local sufWidth = vim.fn.strdisplaywidth(suffix)
   local targetWidth = width - sufWidth
   local curWidth = 0
@@ -16,16 +16,15 @@ local handler = function(virtText, lnum, endLnum, width, truncate)
       chunkWidth = vim.fn.strdisplaywidth(chunkText)
       -- str width returned from truncate() may less than 2nd argument, need padding
       if curWidth + chunkWidth < targetWidth then
-        suffix = suffix .. (' '):rep(targetWidth - curWidth - chunkWidth)
+        suffix = suffix .. (" "):rep(targetWidth - curWidth - chunkWidth)
       end
       break
     end
     curWidth = curWidth + chunkWidth
   end
-  table.insert(newVirtText, { suffix, 'MoreMsg' })
+  table.insert(newVirtText, { suffix, "MoreMsg" })
   return newVirtText
 end
-
 
 lvim.plugins = {
   {
@@ -67,7 +66,7 @@ lvim.plugins = {
     init = function()
       vim.g.VM_maps = {
         ["Find Under"] = "<C-d>",
-        ['Find Subword Under'] = "<C-d>",
+        ["Find Subword Under"] = "<C-d>",
       }
     end,
   },
@@ -88,7 +87,7 @@ lvim.plugins = {
     ft = { "markdown" },
     config = function()
       vim.cmd([[let g:mkdp_auto_start = 1]]) --这是格式
-      vim.g.mkdp_theme = 'light'
+      vim.g.mkdp_theme = "light"
       vim.g.mkdp_auto_start = 1
       vim.g.mkdp_auto_close = 0
       vim.g.mkdp_markdown_css = "/Users/riley/.config/node_modules/github-markdown-css/github-markdown.css"
@@ -127,8 +126,8 @@ lvim.plugins = {
     "luukvbaal/statuscol.nvim",
     event = "BufReadPost",
     config = function()
-      local builtin = require "statuscol.builtin"
-      require("statuscol").setup {
+      local builtin = require("statuscol.builtin")
+      require("statuscol").setup({
         relculright = true,
         segments = {
           { text = { "%s" },                  click = "v:lua.ScSa" },
@@ -138,10 +137,9 @@ lvim.plugins = {
             click = "v:lua.ScFa",
           },
           { text = { builtin.lnumfunc, " " }, click = "v:lua.ScLa" },
-
         },
-      }
-      vim.cmd [[hi FoldColumn guibg=none]]
+      })
+      vim.cmd([[hi FoldColumn guibg=none]])
     end,
   },
 
@@ -157,26 +155,26 @@ lvim.plugins = {
       vim.o.foldlevel = 99 -- Using ufo provider need a large value, feel free to decrease the value
       vim.o.foldlevelstart = 99
       vim.o.foldenable = true
-      require("ufo").setup {
+      require("ufo").setup({
         fold_virt_text_handler = handler,
         provider_selector = function(bufnr, filetype, buftype)
-          return { 'treesitter', 'indent' }
+          return { "treesitter", "indent" }
         end,
         preview = {
           win_config = {
-            border = { '', '─', '', '', '', '─', '', '' },
-            winhighlight = 'Normal:Folded',
-            winblend = 0
+            border = { "", "─", "", "", "", "─", "", "" },
+            winhighlight = "Normal:Folded",
+            winblend = 0,
           },
           mappings = {
-            scrollU = '<C-u>',
-            scrollD = '<C-d>',
-            jumpTop = '[',
-            jumpBot = ']',
-            close = 'q'
-          }
+            scrollU = "<C-u>",
+            scrollD = "<C-d>",
+            jumpTop = "[",
+            jumpBot = "]",
+            close = "q",
+          },
         },
-      }
+      })
       vim.keymap.set("n", "zR", require("ufo").openAllFolds)
       vim.keymap.set("n", "zM", require("ufo").closeAllFolds)
       vim.keymap.set("n", "zr", require("ufo").openFoldsExceptKinds)
@@ -258,6 +256,9 @@ lvim.plugins = {
     event = "VeryLazy",
     opts = {
       lsp = {
+        --hover and signature was overrided by LunarVim
+        hover = { enabled = false },
+        signature = { enabled = false },
         override = {
           ["vim.lsp.util.convert_input_to_markdown_lines"] = true,
           ["vim.lsp.util.stylize_markdown"] = true,
@@ -271,7 +272,7 @@ lvim.plugins = {
         inc_rename = false,     -- enables an input dialog for inc-rename.nvim
         lsp_doc_border = false, -- add a border to hover docs and signature help
       },
-    }
+    },
   },
   {
     "rcarriga/nvim-notify",
@@ -358,7 +359,7 @@ lvim.plugins = {
         },
         hover = {
           open_link = "gl",
-          open_browser = '!safari',
+          open_browser = "!safari",
         },
         outline = {
           win_position = "right",
@@ -395,7 +396,7 @@ lvim.plugins = {
           code_action = "💡",
           incoming = " ",
           outgoing = " ",
-          hover = ' ',
+          hover = " ",
           kind = {},
         },
       })
@@ -407,13 +408,12 @@ lvim.plugins = {
     lazy = true,
     cmd = { "TroubleToggle", "Trouble" },
     opts = { use_diagnostic_signs = true },
-
   },
   {
     "madskjeldgaard/cppman.nvim",
     event = "VeryLazy",
     dependencies = {
-      { 'MunifTanjim/nui.nvim', event = "VeryLazy", },
+      { "MunifTanjim/nui.nvim", event = "VeryLazy" },
     },
     config = function()
       require("cppman").setup()
@@ -448,7 +448,7 @@ lvim.plugins = {
     build = function()
       require("Trans").install()
     end,
-        dependencies = { "kkharji/sqlite.lua" },
+    dependencies = { "kkharji/sqlite.lua" },
     config = function()
       require("Trans").setup({
         frontend = {
@@ -476,5 +476,5 @@ lvim.plugins = {
         },
       })
     end,
-  }
+  },
 }
