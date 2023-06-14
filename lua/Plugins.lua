@@ -1,55 +1,30 @@
-local handler = function(virtText, lnum, endLnum, width, truncate)
-  local newVirtText = {}
-  local suffix = ("  %d "):format(endLnum - lnum)
-  local sufWidth = vim.fn.strdisplaywidth(suffix)
-  local targetWidth = width - sufWidth
-  local curWidth = 0
-  for _, chunk in ipairs(virtText) do
-    local chunkText = chunk[1]
-    local chunkWidth = vim.fn.strdisplaywidth(chunkText)
-    if targetWidth > curWidth + chunkWidth then
-      table.insert(newVirtText, chunk)
-    else
-      chunkText = truncate(chunkText, targetWidth - curWidth)
-      local hlGroup = chunk[2]
-      table.insert(newVirtText, { chunkText, hlGroup })
-      chunkWidth = vim.fn.strdisplaywidth(chunkText)
-      -- str width returned from truncate() may less than 2nd argument, need padding
-      if curWidth + chunkWidth < targetWidth then
-        suffix = suffix .. (" "):rep(targetWidth - curWidth - chunkWidth)
-      end
-      break
-    end
-    curWidth = curWidth + chunkWidth
-  end
-  table.insert(newVirtText, { suffix, "MoreMsg" })
-  return newVirtText
-end
-
 lvim.plugins = {
-  {
-    "ggandor/leap.nvim",
-    event = "VeryLazy",
-    keys = {
-      { "s", mode = { "n", "x", "o" }, desc = "Leap forward to" },
-      { "S", mode = { "n", "x", "o" }, desc = "Leap backward to" },
-      -- { "",  mode = { "n", "x", "o" }, desc = "Leap from windows" }, --窗口跳转
-    },
-    config = function(_, opts)
-      local leap = require("leap")
-      for k, v in pairs(opts) do
-        leap.opts[k] = v
-      end
-      leap.add_default_mappings(true)
-      vim.keymap.del({ "x", "o" }, "x")
-      vim.keymap.del({ "x", "o", "n" }, "gs")
-      vim.keymap.del({ "x", "o" }, "X")
-    end,
-  },
+
   -- easily jump to any location and enhanced f/t motions for Leap
   {
     "ggandor/flit.nvim",
     event = "VeryLazy",
+    dependencies = {
+      {
+        "ggandor/leap.nvim",
+        event = "VeryLazy",
+        keys = {
+          { "s", mode = { "n", "x", "o" }, desc = "Leap forward to" },
+          { "S", mode = { "n", "x", "o" }, desc = "Leap backward to" },
+          -- { "",  mode = { "n", "x", "o" }, desc = "Leap from windows" }, --窗口跳转
+        },
+        config = function(_, opts)
+          local leap = require("leap")
+          for k, v in pairs(opts) do
+            leap.opts[k] = v
+          end
+          leap.add_default_mappings(true)
+          vim.keymap.del({ "x", "o" }, "x")
+          vim.keymap.del({ "x", "o", "n" }, "gs")
+          vim.keymap.del({ "x", "o" }, "X")
+        end,
+      },
+    },
     keys = function()
       local ret = {}
       for _, key in ipairs({ "f", "F", "T", "t" }) do
@@ -122,43 +97,69 @@ lvim.plugins = {
   --     })
   --   end,
   -- },
-  {
-    "luukvbaal/statuscol.nvim",
-    enabled = false,
-    event = "BufReadPost",
-    config = function()
-      local builtin = require("statuscol.builtin")
-      require("statuscol").setup({
-        relculright = true,
-        segments = {
-          { text = { "%s" },                  click = "v:lua.ScSa" },
-          {
-            text = { "", builtin.foldfunc, "" },
-            condition = { builtin.not_empty, true, builtin.not_empty },
-            click = "v:lua.ScFa",
-          },
-          { text = { builtin.lnumfunc, " " }, click = "v:lua.ScLa" },
-        },
-      })
-      vim.cmd([[hi FoldColumn guibg=none]])
-    end,
-  },
+
 
   --  代码折叠功能
   {
     "kevinhwang91/nvim-ufo",
     enabled = false,
-    dependencies = "kevinhwang91/promise-async",
+    dependencies = {
+      { "kevinhwang91/promise-async" }, {
+      "luukvbaal/statuscol.nvim",
+      event = "BufReadPost",
+      config = function()
+        local builtin = require("statuscol.builtin")
+        require("statuscol").setup({
+          relculright = true,
+          segments = {
+            { text = { "%s" },                  click = "v:lua.ScSa" },
+            {
+              text = { "", builtin.foldfunc, "" },
+              condition = { builtin.not_empty, true, builtin.not_empty },
+              click = "v:lua.ScFa",
+            },
+            { text = { builtin.lnumfunc, " " }, click = "v:lua.ScLa" },
+          },
+        })
+        vim.cmd([[hi FoldColumn guibg=none]])
+      end,
+    },
+    },
     event = "BufReadPost",
     config = function()
       vim.o.foldcolumn = "1" -- '0' is not bad
       vim.o.fillchars = [[eob:~,fold: ,foldopen:,foldsep: ,foldclose:]]
-
-      vim.o.foldlevel = 99 -- Using ufo provider need a large value, feel free to decrease the value
+      vim.o.foldlevel = 99   -- Using ufo provider need a large value, feel free to decrease the value
       vim.o.foldlevelstart = 99
       vim.o.foldenable = true
       require("ufo").setup({
-        fold_virt_text_handler = handler,
+        fold_virt_text_handler = function(virtText, lnum, endLnum, width, truncate)
+          local newVirtText = {}
+          local suffix = ("  %d "):format(endLnum - lnum)
+          local sufWidth = vim.fn.strdisplaywidth(suffix)
+          local targetWidth = width - sufWidth
+          local curWidth = 0
+          for _, chunk in ipairs(virtText) do
+            local chunkText = chunk[1]
+            local chunkWidth = vim.fn.strdisplaywidth(chunkText)
+            if targetWidth > curWidth + chunkWidth then
+              table.insert(newVirtText, chunk)
+            else
+              chunkText = truncate(chunkText, targetWidth - curWidth)
+              local hlGroup = chunk[2]
+              table.insert(newVirtText, { chunkText, hlGroup })
+              chunkWidth = vim.fn.strdisplaywidth(chunkText)
+              -- str width returned from truncate() may less than 2nd argument, need padding
+              if curWidth + chunkWidth < targetWidth then
+                suffix = suffix .. (" "):rep(targetWidth - curWidth - chunkWidth)
+              end
+              break
+            end
+            curWidth = curWidth + chunkWidth
+          end
+          table.insert(newVirtText, { suffix, "MoreMsg" })
+          return newVirtText
+        end,
         provider_selector = function(bufnr, filetype, buftype)
           return { "treesitter", "indent" }
         end,

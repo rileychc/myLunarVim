@@ -1,39 +1,33 @@
--- lvim.lsp.buffer_mappings.normal_mode['gk'] = { vim.lsp.buf.hover, "Show documentation" }
 -- Personal
 lvim.keys.insert_mode["jk"] = "<Esc>"
-lvim.keys.insert_mode["<C-s>"] = "<cmd>w!<CR>"
-lvim.keys.normal_mode["<C-s>"] = "<cmd>w!<CR>"
-lvim.keys.visual_mode["<C-s>"] = "<cmd>w!<CR>"
 lvim.keys.normal_mode["<leader>-"] = "<C-W>s"
 lvim.keys.normal_mode["<leader>|"] = "<C-W>v"
 lvim.keys.normal_mode["U"] = "<C-r>"
-lvim.keys.normal_mode["H"] = "5h"
-lvim.keys.normal_mode["J"] = "5j"
-lvim.keys.normal_mode["K"] = "5k"
-lvim.keys.normal_mode["L"] = "5l"
-lvim.keys.normal_mode["e"] = "$"
-lvim.keys.normal_mode["E"] = "^"
-lvim.keys.visual_mode["H"] = "5h"
-lvim.keys.visual_mode["J"] = "5j"
-lvim.keys.visual_mode["K"] = "5k"
-lvim.keys.visual_mode["L"] = "5l"
-lvim.keys.visual_mode["e"] = "$"
-lvim.keys.visual_mode["E"] = "^"
+lvim.keys.normal_mode["K"] = { function() require("cppman").open_cppman_for(vim.fn.expand("<cword>")) end }
+
+-- lvim.keys.normal_mode["H"] = "5h"
+-- lvim.keys.normal_mode["J"] = "5j"
+-- lvim.keys.normal_mode["K"] = "5k"
+-- lvim.keys.normal_mode["L"] = "5l"
+-- lvim.keys.visual_mode["H"] = "5h"
+-- lvim.keys.visual_mode["J"] = "5j"
+-- lvim.keys.visual_mode["K"] = "5k"
+-- lvim.keys.visual_mode["L"] = "5l"
 lvim.keys.normal_mode["<leader>h"] = "<C-W>h"
 lvim.keys.normal_mode["<leader>j"] = "<C-W>j"
 lvim.keys.normal_mode["<leader>k"] = "<C-W>k"
 lvim.keys.normal_mode["<leader>l"] = "<C-W>l"
 lvim.keys.normal_mode["<M-w>"] = "<C-W>c"
-
-
 --LSP
 lvim.lsp.buffer_mappings.normal_mode['gd'] = lvim.lsp.buffer_mappings.normal_mode['gD']
 lvim.lsp.buffer_mappings.normal_mode['gD'] = nil
 lvim.lsp.buffer_mappings.normal_mode['gr'] = nil
 lvim.lsp.buffer_mappings.normal_mode['gk'] = nil
+-- lvim.lsp.buffer_mappings.normal_mode['gk'] = { vim.lsp.buf.hover, "Show documentation" }
 lvim.lsp.buffer_mappings.normal_mode['gl'] = nil
 lvim.lsp.buffer_mappings.normal_mode['gi'] = lvim.lsp.buffer_mappings.normal_mode['gI']
 lvim.lsp.buffer_mappings.normal_mode['gI'] = nil
+lvim.keys.normal_mode["gw"] = { "*N" }
 lvim.keys.normal_mode["gC"] = { "<cmd>CodeiumEnable<CR>" }
 lvim.keys.normal_mode["gI"] = { "<cmd>Lspsaga outgoing_calls<CR>" }
 lvim.keys.normal_mode["gO"] = { "<cmd>Lspsaga incoming_calls<CR>" }
@@ -51,10 +45,6 @@ lvim.keys.normal_mode["<F2>"] = { "<Cmd>Lspsaga rename<CR>" }
 lvim.keys.normal_mode["<F14>"] = { "<Cmd>Lspsaga rename ++project<CR>" }
 
 --Bufferline
--- lvim.keys.normal_mode["<M-l>"] = "<cmd>BufferLineCycleNext<CR>"
--- lvim.keys.normal_mode["<M-h"] = "<cmd>BufferLineCyclePrev<CR>"
--- lvim.keys.normal_mode["<M-j>"] = "<cmd>BufferLineMoveNext<CR>"
--- lvim.keys.normal_mode["<M-k"] = "<cmd>BufferLineMovePrev<CR>"
 lvim.keys.normal_mode["<M-1>"] = "<cmd>BufferLineGoToBuffer 1<CR>"
 lvim.keys.normal_mode["<M-2>"] = "<cmd>BufferLineGoToBuffer 2<CR>"
 lvim.keys.normal_mode["<M-3>"] = "<cmd>BufferLineGoToBuffer 3<CR>"
@@ -66,7 +56,6 @@ lvim.keys.normal_mode["<M-8>"] = "<cmd>BufferLineGoToBuffer 8<CR>"
 lvim.keys.normal_mode["<M-9>"] = "<cmd>BufferLineGoToBuffer 9<CR>"
 lvim.keys.normal_mode["<M-q>"] = "<Cmd>BufferKill<CR>"
 lvim.builtin.which_key.mappings["bd"] = { "<Cmd>BufferKill<CR>", "Buffer Close" }
--- lvim.builtin.which_key.mappings["bN"] = { "<Cmd><CR>", "Buffer Close" }
 lvim.builtin.which_key.mappings["bN"] = { "<cmd>enew<CR>", "New File" }
 -- tabs
 lvim.builtin.which_key.mappings["<tab>"] =
@@ -80,7 +69,6 @@ lvim.builtin.which_key.mappings["<tab>"] =
   b = { "<cmd>tabprevious<cr>", "Previous Tab" },
 }
 lvim.builtin.which_key.mappings["H"] = { "<Cmd>Alpha<CR>", "Home page" }
-lvim.builtin.which_key.mappings["<CR>"] = { "<Cmd>nohlsearch<CR>", "No hightlight" }
 lvim.builtin.which_key.mappings["L"] = {
   name = "LSP",
   d = { " <Cmd>Telescope diagnostics bufnr=0 theme=get_ivy<CR>", "Buffer Diagnostics" },
@@ -118,7 +106,6 @@ lvim.builtin.which_key.mappings["m"] = {
   name = "MarkDown",
   d = { "<cmd>MarkdownPreviewToggle<CR>", "Preview markdown" },
 }
-
 --Notify
 --"Delete All Notifications"
 lvim.builtin.which_key.mappings["n"] = {
@@ -170,13 +157,10 @@ lvim.builtin.which_key.mappings["s"] = {
   f = { function() require("lvim.core.telescope.custom-finders").find_project_files { previewer = false } end,
     "Find File" },
   -- f = { " <Cmd>Telescope find_files<CR>", " Find File" },
-  Y = { "<cmd>CPPMan<CR>", "Find Lib Help" },
-  y = { function() require("cppman").open_cppman_for(vim.fn.expand("<cword>")) end,
-    "Cusor Library" }
+  L = { "<cmd>CPPMan<CR>", "Find Lib Help" },
 }
 
 lvim.builtin.which_key.mappings["f"] = {}
-
 
 --Dap
 lvim.keys.normal_mode['<F5>'] = { function()
@@ -185,7 +169,7 @@ lvim.keys.normal_mode['<F5>'] = { function()
       .. ".out"
   if vim.bo.filetype == ("cpp" or "c") then --判断该可调试文件是否存在，如果存在则调试，如果不存在则先编译后调试
     vim.cmd(
-      "!g++ -std=c++17 -Wshadow -Wall -o ~/Public/Bin_Files/%:t:r.out  % -g -I ./include/ -I .. -fsanitize=address -fsanitize=undefined -D_GLIBCXX_DEBUG"
+      "!g++ -std=c++17 -Wshadow -Wall -o ~/Public/Bin_Files/%:t:r.out  % -g -I ./include/ -I .. -D_GLIBCXX_DEBUG"
     )
     vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes("<CR>", true, true, true), "n", true)
   end
@@ -264,3 +248,34 @@ lvim.keys.normal_mode["<M-;>"] = ":resize -2<CR>"
 lvim.keys.normal_mode["<M-[>"] = ":vertical resize -2<CR>"
 lvim.keys.normal_mode["<M-]>"] = ":vertical resize +2<CR>"
 lvim.keys.normal_mode["<M-'>"] = ":resize +2<CR>"
+
+
+
+local function map(mode, lhs, rhs, opts)
+  vim.keymap.set(mode, lhs, rhs, opts)
+end
+
+map({ "i", "v", "n", "s" }, "<C-s>", "<cmd>w<cr><esc>", { desc = "Save file" })
+map("n", "j", "v:count == 0 ? 'gj' : 'j'", { expr = true, silent = true })
+map("n", "k", "v:count == 0 ? 'gk' : 'k'", { expr = true, silent = true })
+map("n", "n", "'Nn'[v:searchforward]", { expr = true, desc = "Next search result" })
+map("x", "n", "'Nn'[v:searchforward]", { expr = true, desc = "Next search result" })
+map("o", "n", "'Nn'[v:searchforward]", { expr = true, desc = "Next search result" })
+map("n", "N", "'nN'[v:searchforward]", { expr = true, desc = "Prev search result" })
+map("x", "N", "'nN'[v:searchforward]", { expr = true, desc = "Prev search result" })
+map("o", "N", "'nN'[v:searchforward]", { expr = true, desc = "Prev search result" })
+map({ "i", "n" }, "<esc>", "<cmd>noh<cr><esc>", { desc = "Escape and clear hlsearch" })
+map({ "n", "v", "o" }, "e", "$")
+map({ "n", "v", "o" }, "E", "^")
+map("n", "<M-}>", "<cmd>BufferLineCycleNext<CR>")
+map("n", "<M-{>", "<cmd>BufferLineCyclePrev<CR>")
+map("n", "<M-k>", "<cmd>BufferLineMoveNext<CR>")
+map("n", "<M-j>", "<cmd>BufferLineMovePrev<CR>")
+
+-- "s": 选择模式（Select Mode）：选择模式与可视模式类似，允许你选择文本并执行操作。与可视模式不同的是，选择模式下的光标移动会影响选择区域，而在可视模式下，选择区域是通过移动光标来确定的。
+-- "c": 命令行模式（Command-line Mode）：在命令行模式下，你可以输入各种命令来执行特定的操作，如保存文件、退出编辑器、搜索替换等。你可以通过按下冒号（:）进入命令行模式。
+-- "t": 终端模式（Terminal Mode）：终端模式允许你在nvim中打开一个终端窗口，以执行命令行操作，如编译代码、运行测试等。
+-- "o": 操作符等待模式（Operator-pending Mode）：操作符等待模式用于在执行操作符之前等待附加的动作。例如，你可以使用d（删除）操作符，然后等待动作（如w表示删除一个单词）。
+-- "R": 替换模式（Replace Mode）：在替换模式下，你可以直接替换当前光标所在位置的字符，输入的字符将覆盖原有字符。
+-- "L": Ex 模式（Ex Mode）：Ex 模式是一种行编辑模式，类似于传统的 Vi 编辑器的 Ex 命令模式。在 Ex 模式下，你可以执行各种行级别的操作，如保存、退出、查找、替换等。
+-- "!": Shell 模式（Shell Mode）：Shell 模式允许你在nvim中执行外部的 shell 命令。你可以在命令行模式下使用感叹号（!）来进入 Shell 模式，并在其中执行需要的命令。
