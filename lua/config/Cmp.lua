@@ -1,0 +1,2 @@
+--出现补全需多少字符
+-- lvim.builtin.cmp.completion.keyword_length = 2

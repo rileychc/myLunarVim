@@ -33,7 +33,7 @@ lvim.plugins = {
     keys = {
       { "s", mode = { "n", "x", "o" }, desc = "Leap forward to" },
       { "S", mode = { "n", "x", "o" }, desc = "Leap backward to" },
-      -- { "", mode = { "n", "x", "o" }, desc = "Leap from windows" },--窗口跳转
+      -- { "",  mode = { "n", "x", "o" }, desc = "Leap from windows" }, --窗口跳转
     },
     config = function(_, opts)
       local leap = require("leap")
@@ -124,6 +124,7 @@ lvim.plugins = {
   -- },
   {
     "luukvbaal/statuscol.nvim",
+    enabled = false,
     event = "BufReadPost",
     config = function()
       local builtin = require("statuscol.builtin")
@@ -146,6 +147,7 @@ lvim.plugins = {
   --  代码折叠功能
   {
     "kevinhwang91/nvim-ufo",
+    enabled = false,
     dependencies = "kevinhwang91/promise-async",
     event = "BufReadPost",
     config = function()
