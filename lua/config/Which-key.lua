@@ -10,3 +10,5 @@ lvim.builtin.which_key.setup.plugins.presets =
   g = true,             -- bindings for prefixed with g
 }
 lvim.builtin.which_key.setup.ignore_missing = true
+
+-- lvim.keys.normal_mode["g"] = "<Cmd>lua require("which-key").show("g", {mode = "n", auto = true})<CR>"

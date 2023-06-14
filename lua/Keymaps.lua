@@ -4,15 +4,6 @@ lvim.keys.normal_mode["<leader>-"] = "<C-W>s"
 lvim.keys.normal_mode["<leader>|"] = "<C-W>v"
 lvim.keys.normal_mode["U"] = "<C-r>"
 lvim.keys.normal_mode["K"] = { function() require("cppman").open_cppman_for(vim.fn.expand("<cword>")) end }
-
--- lvim.keys.normal_mode["H"] = "5h"
--- lvim.keys.normal_mode["J"] = "5j"
--- lvim.keys.normal_mode["K"] = "5k"
--- lvim.keys.normal_mode["L"] = "5l"
--- lvim.keys.visual_mode["H"] = "5h"
--- lvim.keys.visual_mode["J"] = "5j"
--- lvim.keys.visual_mode["K"] = "5k"
--- lvim.keys.visual_mode["L"] = "5l"
 lvim.keys.normal_mode["<leader>h"] = "<C-W>h"
 lvim.keys.normal_mode["<leader>j"] = "<C-W>j"
 lvim.keys.normal_mode["<leader>k"] = "<C-W>k"
@@ -55,8 +46,20 @@ lvim.keys.normal_mode["<M-7>"] = "<cmd>BufferLineGoToBuffer 7<CR>"
 lvim.keys.normal_mode["<M-8>"] = "<cmd>BufferLineGoToBuffer 8<CR>"
 lvim.keys.normal_mode["<M-9>"] = "<cmd>BufferLineGoToBuffer 9<CR>"
 lvim.keys.normal_mode["<M-q>"] = "<Cmd>BufferKill<CR>"
-lvim.builtin.which_key.mappings["bd"] = { "<Cmd>BufferKill<CR>", "Buffer Close" }
-lvim.builtin.which_key.mappings["bN"] = { "<cmd>enew<CR>", "New File" }
+
+lvim.builtin.which_key.mappings["b"] = {
+  name = "Buffers",
+  D = { "<Cmd>BufferLineSortByDirectory<CR>", "Sort by directory" },
+  W = { "<Cmd>noautocmd w<CR>", "Save without formatting (noautocmd)" },
+  e = { "<Cmd>BufferLinePickClose<CR>", "Pick which buffer to close" },
+  j = { "<Cmd>BufferLinePick<CR>", "Jump" },
+  h = { "<Cmd>BufferLineCloseLeft<CR>", "Close all to the left" },
+  f = { "<Cmd>Telescope buffers previewer=false<CR>", "Find" },
+  L = { "<Cmd>BufferLineSortByExtension<CR>", "Sort by language" },
+  n = { "<cmd>enew<CR>", "New File" },
+  l = { "<Cmd>BufferLineCloseRight<CR>", "Close all to the right" },
+  d = { "<Cmd>BufferKill<CR>", "Buffer Close" },
+}
 -- tabs
 lvim.builtin.which_key.mappings["<tab>"] =
 {
@@ -205,10 +208,12 @@ lvim.keys.normal_mode["<C-h>"] = false
 lvim.keys.normal_mode["<C-j>"] = false
 lvim.keys.normal_mode["<C-k>"] = false
 lvim.keys.normal_mode["<C-l>"] = false
+
+lvim.builtin.which_key.mappings["f"] = {}
 lvim.builtin.which_key.mappings["f"] = {}
 lvim.builtin.which_key.mappings["p"] = {}
-lvim.builtin.which_key.vmappings['/'] = {}
 lvim.builtin.which_key.mappings['/'] = {}
+lvim.builtin.which_key.vmappings['/'] = {}
 lvim.builtin.which_key.mappings['q'] = {}
 lvim.builtin.which_key.mappings[';'] = {}
 lvim.builtin.which_key.mappings['h'] = {}
@@ -271,6 +276,16 @@ map("n", "<M-}>", "<cmd>BufferLineCycleNext<CR>")
 map("n", "<M-{>", "<cmd>BufferLineCyclePrev<CR>")
 map("n", "<M-k>", "<cmd>BufferLineMoveNext<CR>")
 map("n", "<M-j>", "<cmd>BufferLineMovePrev<CR>")
+
+-- lvim.keys.normal_mode["H"] = "5h"
+-- lvim.keys.normal_mode["J"] = "5j"
+-- lvim.keys.normal_mode["K"] = "5k"
+-- lvim.keys.normal_mode["L"] = "5l"
+-- lvim.keys.visual_mode["H"] = "5h"
+-- lvim.keys.visual_mode["J"] = "5j"
+-- lvim.keys.visual_mode["K"] = "5k"
+-- lvim.keys.visual_mode["L"] = "5l"
+
 
 -- "s": 选择模式（Select Mode）：选择模式与可视模式类似，允许你选择文本并执行操作。与可视模式不同的是，选择模式下的光标移动会影响选择区域，而在可视模式下，选择区域是通过移动光标来确定的。
 -- "c": 命令行模式（Command-line Mode）：在命令行模式下，你可以输入各种命令来执行特定的操作，如保存文件、退出编辑器、搜索替换等。你可以通过按下冒号（:）进入命令行模式。
