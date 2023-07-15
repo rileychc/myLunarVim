@@ -16,3 +16,7 @@ require("config.Illuminate")
 require("config.Which-key")
 require("config.Telescope")
 require("config.clangd")
+require("config.Mason")
+-- require("config.Lualine")
+
+

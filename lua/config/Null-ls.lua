@@ -23,7 +23,7 @@ require("lvim.lsp.null-ls.formatters").setup({
 })
 require("lvim.lsp.null-ls.linters").setup({
     -- { filetypes = { "c", "cpp" },                                                       command = "cpplint" },
-    { filetypes = { "sh" },                                                             command = "shellcheck" },
+    -- { filetypes = { "sh" },                                                             command = "shellcheck" },
     { filetypes = { "go" },                                                             command = "golangci_lint" },
     -- { filetypes = { "python" },                                                         command = "pylint" },
     { filetypes = { "javascript", "typescript", "javascriptreact", "typescriptreact" }, command = "eslint" },

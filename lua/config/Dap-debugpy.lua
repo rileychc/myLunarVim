@@ -18,7 +18,8 @@ dap.adapters.python = function(cb, config)
 		cb({
 			type = "executable",
 			-- command = '/Users/riley/.virtualenvs/debugpy/bin/python3',
-			command = "/opt/homebrew/bin/python3",
+			-- command = "/opt/homebrew/bin/python3",
+			command = "python3",
 			args = { "-m", "debugpy.adapter" },
 			options = {
 				source_filetype = "python",
@@ -47,7 +48,8 @@ dap.configurations.python = {
 			--   return cwd .. '/.venv/bin/python'
 			-- else
 			-- return '/usr/bin/python'
-			return "/opt/homebrew/bin/python3"
+			-- return "/opt/homebrew/bin/python3"
+			return "python3"
 			-- end
 		end,
 	},

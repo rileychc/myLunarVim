@@ -60,7 +60,7 @@ vim.api.nvim_create_autocmd("FileType", {
             0,
             "n",
             "<F19>",
-            "<ESC><cmd>!g++ -std=c++17 -Wshadow -Wall -o ~/Public/Bin_Files/%:t:r.out  % -g -I ./include/ -I ..  -D_GLIBCXX_DEBUG<CR><CR>",
+            "<ESC><cmd>!g++ -std=c++17 -Wshadow -Wall -o /Users/riley/Public/Drop\\ Box/%:t:r.out  % -g -I ./include/ -I ..  -D_GLIBCXX_DEBUG<CR><CR>",
             { silent = true, noremap = true }
         )
     end,
@@ -73,7 +73,7 @@ vim.api.nvim_create_autocmd("FileType", {
             0,
             "n",
             "<F19>",
-            "<ESC><cmd>!g++ -std=c++17 -Wshadow -Wall -o ~/Public/Bin_Files/%:t:r.out  % -g -I ./include/ -I ..  -D_GLIBCXX_DEBUG<CR><CR>",
+            "<ESC><cmd>!g++ -std=c++17 -Wshadow -Wall -o /Users/riley/Public/Drop\\ Box/%:t:r.out  % -g -I ./include/ -I ..  -D_GLIBCXX_DEBUG<CR><CR>",
             { silent = true, noremap = true }
         )
     end,
@@ -89,7 +89,7 @@ vim.api.nvim_create_autocmd("FileType", {
             0,
             "n",
             "<F7>",
-            "<ESC>:w<CR>:split<CR>:te gcc  -std=c17 -Wshadow -Wall -o ~/Public/Bin_Files/%:t:r.out % -g -I ./include/ -I ..   -D_GLIBCXX_DEBUG && time ~/Public/Bin_Files/%:t:r.out<CR>i", --%:t:r
+            "<ESC>:w<CR>:split<CR>:te gcc  -std=c17 -Wshadow -Wall -o /Users/riley/Public/Drop\\ Box/%:t:r.out % -g -I ./include/ -I ..   -D_GLIBCXX_DEBUG && time /Users/riley/Public/Drop\\ Box/%:t:r.out<CR>i", --%:t:r
             { silent = true, noremap = true }
         )
     end,
@@ -103,7 +103,7 @@ vim.api.nvim_create_autocmd("FileType", {
             0,
             "n",
             "<F7>",
-            "<ESC>:w<CR>:split<CR>:te g++ -std=c++17 -Wshadow -Wall -o ~/Public/Bin_Files/%:t:r.out %  -g -I ./include/  -I /Users/riley/Public/Leetcode/cpp/   -D_GLIBCXX_DEBUG && time ~/Public/Bin_Files/%:t:r.out<CR>i", --
+            "<ESC>:w<CR>:split<CR>:te g++ -std=c++17 -Wshadow -Wall -o /Users/riley/Public/Drop\\ Box/%:t:r.out %  -g -I ./include/  -I /Users/riley/Public/Leetcode/cpp/   -D_GLIBCXX_DEBUG && time /Users/riley/Public/Drop\\ Box/%:t:r.out<CR>i", --
             { silent = true, noremap = true }
         )
     end,

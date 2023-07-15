@@ -1,3 +1,4 @@
+local Util = require("Mutils")
 -- Personal
 lvim.keys.insert_mode["jk"] = "<Esc>"
 lvim.keys.normal_mode["<leader>-"] = "<C-W>s"
@@ -29,9 +30,8 @@ lvim.keys.normal_mode["go"] = { "<cmd>Lspsaga outline<CR>" }
 lvim.keys.normal_mode["gl"] = { "<cmd>Lspsaga show_line_diagnostics<CR>" }
 lvim.keys.normal_mode["gF"] = { "<Cmd>lua require('lvim.lsp.utils').format()<CR>" }
 lvim.keys.normal_mode["gh"] = { function() require("cppman").open_cppman_for(vim.fn.expand("<cword>")) end } --cpp Help
-
-lvim.keys.normal_mode["[g"] = { "<cmd>Lspsaga diagnostic_jump_prev<CR>" }
-lvim.keys.normal_mode["]g"] = { "<cmd>Lspsaga diagnostic_jump_next<CR>" }
+lvim.keys.normal_mode["[d"] = { "<cmd>Lspsaga diagnostic_jump_prev<CR>" }
+lvim.keys.normal_mode["]"] = { "<cmd>Lspsaga diagnostic_jump_next<CR>" }
 lvim.keys.normal_mode["<F2>"] = { "<Cmd>Lspsaga rename<CR>" }
 lvim.keys.normal_mode["<F14>"] = { "<Cmd>Lspsaga rename ++project<CR>" }
 
@@ -147,12 +147,12 @@ lvim.builtin.which_key.mappings["s"] = {
 
 --Dap
 lvim.keys.normal_mode['<F5>'] = { function()
-    local executable = "/Users/riley/Public/Bin_Files/"
+    local executable = "/Users/riley/Public/Drop\\ Box/"
         .. vim.fn.fnamemodify(vim.fn.expand("%"), ":t:r")
         .. ".out"
     if vim.bo.filetype == ("cpp" or "c") then --判断该可调试文件是否存在，如果存在则调试，如果不存在则先编译后调试
         vim.cmd(
-            "!g++ -std=c++17 -Wshadow -Wall -o ~/Public/Bin_Files/%:t:r.out  % -g -I ./include/ -I .. -D_GLIBCXX_DEBUG"
+            "!g++ -std=c++17 -Wshadow -Wall -o /Users/riley/Public/Drop\\ Box/%:t:r.out  % -g -I ./include/ -I .. -D_GLIBCXX_DEBUG"
         )
         vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes("<CR>", true, true, true), "n", true)
     end
@@ -197,6 +197,44 @@ lvim.builtin.which_key.mappings['x'] = {
     w = { "<cmd>TroubleToggle workspace_diagnostics<CR>", "Show workspace diagnostics" },
 
 }
+
+
+-- local ops = {}
+-- local function formattoggle()
+--     if vim.b.autoformat == false then
+--         vim.b.autoformat = nil
+--         ops.autoformat = true
+--     else
+--         ops.autoformat = not ops.autoformat
+--     end
+--     if ops.autoformat then
+--         Util.info("Enabled format on save", { title = "Format" })
+--     else
+--         Util.warn("Disabled format on save", { title = "Format" })
+--     end
+-- end
+
+
+local conceallevel = vim.o.conceallevel > 0 and vim.o.conceallevel or 3
+lvim.builtin.which_key.mappings["u"]
+= {
+    name = "Toggle",
+    -- f = { "lua require("lazyvim.plugins.lsp.format").toggle<CR>", "Toggle format on Save" },
+    -- s = { "<cmd>setlocal spell! spelllang=en_us<CR>", "Toggle Spell" },
+    -- f = { formattoggle(), "t" },
+    s = { function() Util.toggle("spell") end, "Toggle Spelling" },
+    w = { function() Util.toggle("wrap") end, "Toggle Word Wrap" },
+    l = { function()
+        Util.toggle("relativenumber", true)
+        Util.toggle("number")
+    end, "Toggle Line Numbers" },
+    d = { Util.toggle_diagnostics, "Toggle Diagnostics" },
+    c = { function() Util.toggle("conceallevel", false, { 0, conceallevel }) end,
+        "Toggle Conceal" },
+
+
+}
+
 
 -- tabs
 -- lvim.builtin.which_key.mappings["<tab>"] =
@@ -277,7 +315,6 @@ map("n", "<M-}>", "<cmd>BufferLineCycleNext<CR>")
 map("n", "<M-{>", "<cmd>BufferLineCyclePrev<CR>")
 map("n", "<M-k>", "<cmd>BufferLineMoveNext<CR>")
 map("n", "<M-j>", "<cmd>BufferLineMovePrev<CR>")
-
 
 -- "s": 选择模式（Select Mode）：选择模式与可视模式类似，允许你选择文本并执行操作。与可视模式不同的是，选择模式下的光标移动会影响选择区域，而在可视模式下，选择区域是通过移动光标来确定的。
 -- "c": 命令行模式（Command-line Mode）：在命令行模式下，你可以输入各种命令来执行特定的操作，如保存文件、退出编辑器、搜索替换等。你可以通过按下冒号（:）进入命令行模式。

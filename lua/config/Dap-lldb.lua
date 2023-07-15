@@ -19,8 +19,8 @@ dap.configurations.cpp = {
 		name = "C/C++调试",
 		request = "launch",
 		-- 编译输出目录在 cwd/build/,和asynctask中定义的一致
-    program = "~/Public/Bin_Files/${fileBasenameNoExtension}.out",
-    -- program = "~/Public/Bin_Files/a.out",
+    program = "/Users/riley/Public/Drop Box/${fileBasenameNoExtension}.out",
+    -- program = "~/Public/Bin_Files/demo.out",
 		-- program = function()
 		--   return vim.fn.input('Path to executable: ', vim.fn.getcwd() .. '/', 'file')
 		-- end,

@@ -3,7 +3,7 @@ vim.g.loaded_perl_provider = 0
 vim.opt.relativenumber = true -- relative line numbers
 vim.opt.cmdheight = 0
 -- vim.opt.shell = "/bin/bash"
-lvim.format_on_save = false
+lvim.format_on_save.enabled = false
 --主题
 -- lvim.colorscheme = "tokyonight"
 --状态栏风格

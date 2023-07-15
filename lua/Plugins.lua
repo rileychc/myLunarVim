@@ -278,7 +278,7 @@ lvim.plugins = {
     },
     {
         "glepnir/lspsaga.nvim",
-        event = "LspAttach",
+        -- event = "LspAttach",
         dependencies = { "nvim-web-devicons" }, -- 使用的是本地图标
         config = function()
             require("lspsaga").setup({
